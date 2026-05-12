@@ -908,9 +908,21 @@ async function doRefresh(){
 
   var liveTk = DATA.filter(function(d){ return !MACRO[d.tk]; }).map(function(d){ return d.tk; });
 
+  // Âncora: preços do data.json antes do refresh (para detecção de anomalias da API)
+  var anchor = {};
+  DATA.forEach(function(d){ if(d.ebv && d.ebv > 0) anchor[d.tk] = d.ebv; });
+
+  function isSane(tk, px){
+    var ref = anchor[tk];
+    if(!ref || ref <= 0) return true; // sem referência, aceita
+    var dev = Math.abs((px - ref) / ref);
+    return dev < 0.60; // rejeita se desviar mais de 60% do valor armazenado
+  }
+
   // ── FASE 1: Yahoo Finance → coluna EBV (o que o Heatmap mostra) ──────────
   st.textContent = '📡 1/3 Yahoo Finance (EBV)...';
   var yRes = {};
+  var ySuspect = [];
   for(var i=0; i<liveTk.length; i+=BATCH){
     var batch  = liveTk.slice(i,i+BATCH);
     var yBatch = batch.map(function(tk){ return YH[tk]||tk; });
@@ -920,7 +932,14 @@ async function doRefresh(){
         var j = await r.json();
         batch.forEach(function(tk,idx){
           var q = j[yBatch[idx]] || j[tk];
-          if(q && q.px) yRes[tk] = q.px;
+          if(q && q.px){
+            if(isSane(tk, q.px)){
+              yRes[tk] = q.px;
+            } else {
+              ySuspect.push(tk);
+              console.warn('[EBV] Yahoo preço suspeito para '+tk+': '+q.px+' (ref: '+anchor[tk]+')');
+            }
+          }
         });
       }
     }catch(e){}

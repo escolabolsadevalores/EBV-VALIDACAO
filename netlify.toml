@@ -12,6 +12,16 @@
   to = "/.netlify/functions/yahoo_proxy"
   status = 200
 
+[[redirects]]
+  from = "/api/fmp"
+  to = "/.netlify/functions/fmp_proxy"
+  status = 200
+
+[[redirects]]
+  from = "/api/finnhub"
+  to = "/.netlify/functions/finnhub_proxy"
+  status = 200
+
 [[headers]]
   for = "/*"
   [headers.values]

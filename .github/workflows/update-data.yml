@@ -31,6 +31,9 @@ jobs:
         run: pip install requests
 
       - name: Fetch and update prices
+        env:
+          FMP_KEY:     ${{ secrets.FMP_KEY }}
+          FINNHUB_KEY: ${{ secrets.FINNHUB_KEY }}
         run: python scripts/fetch_prices.py
 
       - name: Commit and push if data changed

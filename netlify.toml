@@ -1,0 +1,21 @@
+# ============================================================
+# E.B.V. — Cross-Validation Report v3.0
+# netlify.toml
+# ============================================================
+
+[build]
+  publish = "."
+  functions = "functions"
+
+[[redirects]]
+  from = "/api/yahoo"
+  to = "/.netlify/functions/yahoo_proxy"
+  status = 200
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Cache-Control = "no-store"

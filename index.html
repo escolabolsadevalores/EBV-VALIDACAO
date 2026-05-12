@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>E.B.V. — Cross-Validation Report v3.0 | Escola Bolsa de Valores</title>
+<title>E.B.V. — Cross-Validation Report v3.0 | Escola Bolsa de Valores - Educação Financeira para Todos</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700;800&family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -276,7 +276,7 @@ table.cvt tr:hover td{background:rgba(255,255,255,.02)}
     <span class="val-pill">🛡️ 12 camadas de protocolo</span>
     <span class="val-pill">📡 8 fontes primárias</span>
     <span class="val-pill">🔄 Auto-refresh 60s</span>
-    <span class="val-pill">🇧🇷 Padrão CVM-educacional</span>
+    <span class="val-pill">🇧🇷 Uso Educacional · Sem fins comerciais</span>
   </div>
   <div class="val-ts" id="valTs"></div>
 </div>
@@ -358,11 +358,13 @@ table.cvt tr:hover td{background:rgba(255,255,255,.02)}
 
 <!-- DISCLAIMER -->
 <div class="disclaimer">
-  <b>⚠️ AVISO LEGAL:</b> Este documento e a plataforma E.B.V. têm caráter <b>exclusivamente educacional e informativo</b>. Os dados provêm de fontes públicas verificáveis e podem ter atraso de até 15 minutos durante o pregão. <b>Não constitui recomendação de compra, venda ou manutenção de ativos.</b> Investimentos envolvem riscos. Consulte um profissional certificado pela CVM antes de investir. Rentabilidade passada não garante resultados futuros.
+  <b>⚠️ AVISO LEGAL:</b> Este documento e a plataforma E.B.V. — Escola Bolsa de Valores - Educação Financeira para Todos têm caráter <b>exclusivamente educacional e informativo</b>, desenvolvidos por pessoa física sem vínculo com instituições financeiras, corretoras ou gestoras de investimentos. Os dados são obtidos de fontes públicas verificáveis (Yahoo Finance, FMP, Finnhub, Investing.com, TradingView) e podem apresentar defasagem de até 15 minutos durante o pregão. <b>Este conteúdo não constitui recomendação de compra, venda ou manutenção de ativos financeiros, nem oferta ou solicitação de investimento de qualquer natureza.</b> Rentabilidade passada não garante resultados futuros. Investimentos envolvem riscos, incluindo perda do capital investido. Antes de tomar qualquer decisão financeira, consulte um profissional devidamente habilitado e registrado na CVM ou ANBIMA.
+  <br><br>
+  <span style="font-size:.65rem;opacity:.7">Vigência: Janeiro/2026 · Plataforma gratuita e sem fins comerciais · Uso educacional permitido com citação da fonte</span>
 </div>
 
 <div class="val-footer">
-  © 2026 <a href="https://www.instagram.com/escolabolsadevalores/" target="_blank">E.B.V. — Escola Bolsa de Valores</a> · @escolabolsadevalores · Ribeirão Preto · Brasil 🇧🇷<br>
+  © 2026 <a href="https://www.instagram.com/escolabolsadevalores/" target="_blank">E.B.V. — Escola Bolsa de Valores - Educação Financeira para Todos</a> · @escolabolsadevalores · Ribeirão Preto · Brasil 🇧🇷<br>
   <span id="footerTs"></span>
 </div>
 
@@ -1017,9 +1019,12 @@ function doTXT(){
   LAYERS.forEach(function(l,i){ txt += '  Camada '+(i+1)+': '+l.nm+'\n'; });
 
   txt += '\n═══════════════════════════════════════════════════════════\n';
-  txt += '  AVISO LEGAL: Documento de caráter exclusivamente educacional.\n';
-  txt += '  Não constitui recomendação de investimento.\n';
-  txt += '  © 2026 E.B.V. — Escola Bolsa de Valores | @escolabolsadevalores\n';
+  txt += '  AVISO LEGAL: Documento de caráter exclusivamente educacional e informativo.\n';
+  txt += '  Desenvolvido por pessoa física sem vínculo com instituições financeiras.\n';
+  txt += '  Não constitui recomendação de compra, venda ou manutenção de ativos.\n';
+  txt += '  Rentabilidade passada não garante resultados futuros.\n';
+  txt += '  Plataforma gratuita e sem fins comerciais.\n';
+  txt += '  © 2026 E.B.V. — Escola Bolsa de Valores - Educação Financeira para Todos | @escolabolsadevalores\n';
   txt += '═══════════════════════════════════════════════════════════\n';
 
   var blob = new Blob([txt], {type:'text/plain;charset=utf-8'});

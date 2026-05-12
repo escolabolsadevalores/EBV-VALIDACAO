@@ -62,6 +62,7 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);min-
 .tbtn.txt{background:linear-gradient(135deg,var(--blue),#1d4ed8);color:#fff}
 .tbtn.txt:hover{box-shadow:0 4px 12px rgba(96,165,250,.4);transform:translateY(-1px)}
 #refreshStatus{font-size:.65rem;font-family:'JetBrains Mono',monospace;color:var(--teal);padding:4px 10px;background:rgba(45,212,191,.1);border-radius:6px;display:none}
+#autoUpdateBadge{font-size:.65rem;font-family:'JetBrains Mono',monospace;color:#a78bfa;padding:4px 10px;background:rgba(167,139,250,.1);border-radius:6px;border:1px solid rgba(167,139,250,.2);display:none}
 
 /* ═══ LAYOUT ═══ */
 .container{max-width:1200px;margin:0 auto;padding:28px 20px 60px}
@@ -253,6 +254,7 @@ table.cvt tr:hover td{background:rgba(255,255,255,.02)}
     <span class="topbar-ver">v3.0</span>
   </div>
   <div class="topbar-right">
+    <span id="autoUpdateBadge"></span>
     <span id="refreshStatus">⚡ Atualizando...</span>
     <button class="tbtn refresh" id="refreshBtn" onclick="doRefresh()">⚡ Atualizar Dados</button>
     <button class="tbtn pdf" onclick="doPDF()">🖨️ Gerar PDF</button>
@@ -858,6 +860,36 @@ function renderTimestamp(){
   if(ft) ft.textContent = 'Documento gerado em ' + now;
 }
 
+// ═══ AUTO DATA LOADER (data.json — updated daily by GitHub Actions) ═══
+async function loadData(){
+  try{
+    var r = await fetch('/data.json?_='+Date.now(), {signal:AbortSignal.timeout(8000)});
+    if(r.ok){
+      var d = await r.json();
+      if(d.assets && Array.isArray(d.assets)){
+        var byTk={};
+        d.assets.forEach(function(a){ byTk[a.tk]=a; });
+        DATA.forEach(function(item){
+          var src=byTk[item.tk];
+          if(src){
+            item.ebv=src.ebv;
+            item.off=src.off;
+            if(src.ok!==undefined) item.ok=src.ok;
+          }
+        });
+      }
+      if(d.lastUpdatedET){
+        var badge=document.getElementById('autoUpdateBadge');
+        if(badge){ badge.style.display='inline-block'; badge.textContent='🤖 '+d.lastUpdatedET; }
+      }
+      renderCV();
+    }
+  }catch(e){
+    console.warn('data.json indisponível — usando dados embutidos');
+  }
+  doRefresh();
+}
+
 // ═══ LIVE REFRESH (Yahoo proxy) ═══
 async function doRefresh(){
   var btn = document.getElementById('refreshBtn');
@@ -960,6 +992,7 @@ function init(){
   renderMethods();
   renderCost();
   renderGuide();
+  loadData(); // carrega data.json (atualizado automaticamente) e dispara doRefresh()
 }
 
 // Auto-init se já autenticado via DOMContentLoaded
